@@ -144,7 +144,7 @@ const InternalUI = ({ role }) => {
     const needle = q.trim().toLowerCase();
     return songs.filter((s) => s[filterKey].toLowerCase().includes(needle)).sort((a, b) => a[sortKey].localeCompare(b[sortKey]));
   }, [songs, filterKey, q, sortKey]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "wrap", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card library-card", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "Music Library" }),
     role === "admin" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "controls", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AddForm, { onSubmit: (d) => dispatch({ type: "ADD", payload: { id: crypto.randomUUID?.() ?? String(Date.now()), ...d } }) }) }),
     groupBy ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: Object.entries(filtered.reduce((acc, s) => {

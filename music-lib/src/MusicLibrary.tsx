@@ -238,7 +238,7 @@ const InternalUI: React.FC<{ role?: Role }> = ({ role }) => {
   }, [songs, filterKey, q, sortKey])
 
   return (
-    <div className="wrap">
+    <div  className="card library-card">
       <h2>Music Library</h2>
       {role==='admin' && (
         <div className="controls">

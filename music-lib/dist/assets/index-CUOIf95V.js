@@ -1,5 +1,5 @@
 import { importShared } from './__federation_fn_import-B6gXDxfr.js';
-import MusicLibrary, { j as jsxRuntimeExports } from './__federation_expose_MusicLibrary-YFSvCC3a.js';
+import MusicLibrary, { j as jsxRuntimeExports } from './__federation_expose_MusicLibrary-CTNy01B4.js';
 import { r as reactDomExports } from './index-D9Af7wOI.js';
 
 var client = {};

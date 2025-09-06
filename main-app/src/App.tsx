@@ -118,6 +118,51 @@ import { AuthProvider, useAuth } from './auth'
 import { SongsProvider, useSongsStore } from './songsStore'
 import './styles.css'
 
+const LoginModal: React.FC = () => {
+  const { loginWithCredentials, login } = useAuth()
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [error, setError] = React.useState<string | null>(null)
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault()
+    const ok = loginWithCredentials(email, password)
+    if (!ok) setError('Invalid email or password')
+  }
+
+  return (
+    <div className="login-backdrop">
+      <div className="card login-card">
+        <h2 style={{ marginBottom: 6 }}>Welcome</h2>
+        <p className="muted" style={{ marginTop: 0 }}>Sign in to continue</p>
+        <form onSubmit={submit} className="login-form">
+          <input
+            type="email" autoComplete="username" placeholder="Email"
+            value={email} onChange={e=>setEmail(e.target.value)}
+          />
+          <input
+            type="password" autoComplete="current-password" placeholder="Password"
+            value={password} onChange={e=>setPassword(e.target.value)}
+          />
+          {error && <div className="card" style={{ margin: 0, background: 'rgba(255,0,0,.08)', borderColor: '#ef4444' }}>{error}</div>}
+          <button type="submit" className="btn-login" style={{ width: '100%' }}>Sign In</button>
+        </form>
+
+        {/* (Optional) quick-role buttons for demoing */}
+        {/* <div className="login-actions" style={{ marginTop: 10 }}>
+          <button className="btn-login" onClick={() => login('user')}>Login as User</button>
+          <button className="btn-login" onClick={() => login('admin')}>Login as Admin</button>
+        </div> */}
+      </div>
+    </div>
+  )
+}
+
+const LoginGate: React.FC = () => {
+  const { role } = useAuth()
+  return role ? null : <LoginModal />
+}
+
 // @ts-ignore – provided by Module Federation at runtime
 const MusicLibrary = React.lazy(() => import('music_lib/MusicLibrary'))
 
@@ -146,22 +191,7 @@ const Toolbar: React.FC = () => {
   )
 }
 
-const LocalQuickAdd: React.FC = () => {
-  const { add } = useSongsStore()
-  const [title, setTitle] = React.useState(''), [artist, setArtist] = React.useState(''), [album, setAlbum] = React.useState('')
-  return (
-    <div className="card" style={{ marginBottom: 12 }}>
-      <b>Quick Add (from Main App)</b><br/>
-      <input placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} />
-      <input placeholder="Artist" value={artist} onChange={e=>setArtist(e.target.value)} />
-      <input placeholder="Album" value={album} onChange={e=>setAlbum(e.target.value)} />
-      <button onClick={()=>{
-        if(!title || !artist || !album) return
-        add({ title, artist, album }); setTitle(''); setArtist(''); setAlbum('')
-      }}>Add</button>
-    </div>
-  )
-}
+
 
 const Home: React.FC = () => {
   const { role } = useAuth()
@@ -171,7 +201,7 @@ const Home: React.FC = () => {
       <div className="card" style={{ marginBottom: 12 }}>
         <b>Store debug:</b> songs count = {songs.length}
       </div>
-      <LocalQuickAdd />
+      {/* <LocalQuickAdd /> */}
       <ErrorBoundary>
         <Suspense fallback={<div className="card">Loading Music Library…</div>}>
           <MusicLibrary role={role ?? 'user'} songs={songs} onAdd={add} onDelete={remove} />
@@ -187,6 +217,7 @@ export default function App() {
       <SongsProvider>
         <Toolbar />
         <Home />
+         <LoginGate />
       </SongsProvider>
     </AuthProvider>
   )
