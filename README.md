@@ -45,9 +45,21 @@ This starts the container at **http://localhost:5173** and will **load the remot
 ### 2) Use the App
 Open **http://localhost:5173** in your browser.
 
-- Use the toolbar to **Login as User** or **Login as Admin**.
-- As **admin**, you’ll see **Add** and **Delete** controls.
-- Try **Search**, **Filter by**, **Sort by**, and **Group by** to see **map/filter/reduce** in action.
+Login Credentials (Demo)
+
+These are mock credentials.
+
+Admin
+
+Email: admin@demo.com
+
+Password: admin123
+
+User
+
+Email: user@demo.com
+
+Password: user123
 
 ---
 
