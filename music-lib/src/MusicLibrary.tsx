@@ -12,21 +12,62 @@ type Props = {
   onDelete?: (id: string) => void
 }
 
+// const AddForm: React.FC<{ onSubmit:(d: Omit<Song,'id'>)=>void }> = ({ onSubmit }) => {
+//   const [form, setForm] = useState({ title:'', artist:'', album:'' })
+//   return (
+//     <>
+//       <input placeholder="Title"  value={form.title}  onChange={e=>setForm(f=>({...f, title:e.target.value}))}/>
+//       <input placeholder="Artist" value={form.artist} onChange={e=>setForm(f=>({...f, artist:e.target.value}))}/>
+//       <input placeholder="Album"  value={form.album}  onChange={e=>setForm(f=>({...f, album:e.target.value}))}/>
+//       <button onClick={()=>{
+//         if(!form.title || !form.artist || !form.album) return
+//         onSubmit({ title: form.title, artist: form.artist, album: form.album })
+//         setForm({ title:'', artist:'', album:'' })
+//       }}>Add</button>
+//     </>
+//   )
+// }
 const AddForm: React.FC<{ onSubmit:(d: Omit<Song,'id'>)=>void }> = ({ onSubmit }) => {
   const [form, setForm] = useState({ title:'', artist:'', album:'' })
+  const canSubmit = form.title.trim().length > 0 && form.artist.trim().length > 0
+
   return (
     <>
-      <input placeholder="Title"  value={form.title}  onChange={e=>setForm(f=>({...f, title:e.target.value}))}/>
-      <input placeholder="Artist" value={form.artist} onChange={e=>setForm(f=>({...f, artist:e.target.value}))}/>
-      <input placeholder="Album"  value={form.album}  onChange={e=>setForm(f=>({...f, album:e.target.value}))}/>
-      <button onClick={()=>{
-        if(!form.title || !form.artist || !form.album) return
-        onSubmit({ title: form.title, artist: form.artist, album: form.album })
-        setForm({ title:'', artist:'', album:'' })
-      }}>Add</button>
+      <input
+        placeholder="Title"
+        value={form.title}
+        onChange={e=>setForm(f=>({ ...f, title: e.target.value }))}
+      />
+      <input
+        placeholder="Artist"
+        value={form.artist}
+        onChange={e=>setForm(f=>({ ...f, artist: e.target.value }))}
+      />
+      <input
+        placeholder="Album (optional)"
+        value={form.album}
+        onChange={e=>setForm(f=>({ ...f, album: e.target.value }))}
+      />
+      <button
+        onClick={()=>{
+          if (!canSubmit) return
+          onSubmit({
+            title:  form.title.trim(),
+            artist: form.artist.trim(),
+            // album can be empty string; if your Song type allows undefined, you can use:
+            // album: form.album.trim() || undefined
+            album:  form.album.trim()
+          })
+          setForm({ title:'', artist:'', album:'' })
+        }}
+        disabled={!canSubmit}
+      >
+        Add
+      </button>
     </>
   )
 }
+
 
 const ExternalUI: React.FC<{ role?: Role; songs: Song[]; onAdd:(d:Omit<Song,'id'>)=>void; onDelete:(id:string)=>void }> =
 ({ role, songs, onAdd, onDelete }) => {
