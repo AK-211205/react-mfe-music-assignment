@@ -1,14 +1,14 @@
 /* === Base (dark glass) === */
 :root{
-  --bg-1:#0b0f1e;        /* deep indigo */
-  --bg-2:#1a1440;        /* purple navy */
+  --bg-1:#0b0f1e;        
+  --bg-2:#1a1440;      
   --panel-rgba: rgba(255,255,255,.06);
   --panel-border: rgba(255,255,255,.14);
   --panel-border-soft: rgba(255,255,255,.10);
   --text:#e9e9f2;
   --muted:#b8b8c7;
   --mute-2:#9da0ae;
-  --accent:#DA7B93;      /* soft pink */
+  --accent:#DA7B93;      
   --accent-2:#c76c84;
   --danger:#ef6060;
   --radius:16px;
@@ -94,8 +94,6 @@ button.btn-danger{
   color:#fff;
 }
 
-/* Controls grid (search / selects / add) */
-/* Make the controls section readable */
 .controls {
   display: flex;
   gap: 10px;
@@ -110,8 +108,8 @@ button.btn-danger{
   padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.95); /* solid white box */
-  color: #2E151B;                    /* dark text so it's readable */
+  background: rgba(255,255,255,0.95);
+  color: #2E151B;                    
   font-size: 14px;
 }
 
@@ -142,9 +140,9 @@ button.btn-danger{
   backdrop-filter: blur(8px);
 }
 .group h3{ margin:0 0 8px; font-size:15px; color:var(--muted) }
-/* Style login buttons like Delete */
+
 button.login-btn {
-  background: #DA7B93;          /* same pink as Delete */
+  background: #DA7B93;          
   color: #fff;
   font-weight: bold;
   border: none;
@@ -156,11 +154,10 @@ button.login-btn {
 }
 
 button.login-btn:hover {
-  background: #c4627a;          /* darker pink on hover */
+  background: #c4627a;          
   box-shadow: 0 6px 12px rgba(218, 123, 147, 0.5);
 }
 
-/* Pink theme buttons reused here */
 button.btn-login{
   background:#DA7B93; color:#fff; font-weight:700; border:none;
   border-radius:12px; height:42px; padding:0 16px; cursor:pointer;
@@ -168,7 +165,6 @@ button.btn-login{
 }
 button.btn-login:hover{ filter:brightness(1.05) }
 
-/* Modal */
 .login-backdrop{
   position:fixed; inset:0; z-index:1000;
   background:rgba(0,0,0,.45);
@@ -178,3 +174,43 @@ button.btn-login:hover{ filter:brightness(1.05) }
 .login-card{ width:min(420px,92vw); text-align:center; }
 .login-form{ display:grid; gap:10px; margin:12px 0; }
 .login-actions{ display:flex; gap:12px; justify-content:center; }
+
+.input-with-icon { position: relative; }
+.input-with-icon input {
+  padding-right: 48px;          
+}
+
+.field-eye{
+  all: unset;                  
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);  
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  border-radius: 6px;
+  cursor: pointer;
+  
+  transition: background .15s ease, color .15s ease;
+}
+
+.field-eye:hover,
+.field-eye:active,
+.field-eye:focus {
+  transform: translateY(-50%);   
+  box-shadow: none;            
+  filter: none;
+}
+
+.field-eye svg{
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+input {
+  border-width: 1px;          
+}
