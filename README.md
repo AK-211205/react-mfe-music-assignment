@@ -1,6 +1,7 @@
 # React Micro Frontend Music Library (Assignment)
+This project demonstrates a Micro Frontend architecture built with React, Vite, and Module Federation. It includes role-based authentication (admin/user) using mock JWT tokens and showcases modular, scalable frontend design.
 
-This repository contains **two apps**:
+The repository contains **two apps**:
 
 - `music-lib/` — Micro frontend that exposes a `MusicLibrary` React component via **Vite Module Federation**.
 - `main-app/` — Container app that **dynamically loads** the remote Music Library and adds **mock JWT-based role management** (admin/user).
@@ -11,11 +12,9 @@ This repository contains **two apps**:
 - **Authentication & Role Management** (mock JWT in `localStorage`):
   - `admin`: can add and delete songs.
   - `user`: can only view & filter.
-- **State Management** using `useReducer` + Context. No Redux.
+- **State Management** using `useReducer` + Context.
 - **Lazy loading** of the micro frontend in the container.
 - Simple, clean UI with basic CSS.
-
-> Deployment intentionally omitted as requested. This is ready for **local development**.
 
 ---
 
@@ -40,14 +39,14 @@ npm run dev
 ```
 This starts the container at **http://localhost:5173** and will **load the remote** from 5174.
 
-> If ports are busy, you can change them in the `package.json` scripts or run `vite --port <PORT>`.
-
 ### 2) Use the App
 Open **http://localhost:5173** in your browser.
 
-Login Credentials (Demo)
 
-These are mock credentials.
+
+## Demo Credentials
+
+These are mock credentials stored in localStorage:
 
 Admin
 
@@ -60,6 +59,42 @@ User
 Email: user@demo.com
 
 Password: user123
+
+
+## Deployment
+
+This project was deployed using Vercel.
+
+
+## Explanation — Micro Frontend (what, how)
+
+What: We split UI into two independently built apps. The remote (music-lib) exposes a React component; the host (main-app) loads it at runtime.
+
+How (Vite + Module Federation):
+
+music-lib exposes ./MusicLibrary and outputs remoteEntry.js.
+
+main-app references that URL in vite.config.ts and lazy-imports it:
+
+const MusicLibrary = React.lazy(() => import('music_lib/MusicLibrary'))
+
+
+React is shared as a singleton so both apps use the same React instance.
+
+State boundary: The host is the single source of truth for songs (Context + useReducer). The remote receives { songs, onAdd, onDelete } via props and renders UI; when it adds/deletes, it calls back into the host.
+
+
+## Explanation — Role-Based Auth (no backend)
+
+Demo users are defined in a small in-bundle map:
+
+{ 'admin@demo.com': { password:'admin123', role:'admin' },
+  'user@demo.com':  { password:'user123',  role:'user' } }
+
+
+On login, we create a mock JWT (base64 header/payload, unsigned) and save it in localStorage.
+On load, the AuthProvider decodes the token from localStorage and puts role in React Context.
+
 
 ---
 
