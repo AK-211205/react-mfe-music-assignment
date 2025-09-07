@@ -8,7 +8,7 @@ export default defineConfig({
     federation({
       name: 'container',
       remotes: {
-        music_lib: 'http://127.0.0.1:5174/assets/remoteEntry.js'
+        music_lib: 'https://react-mfe-music-assignment.vercel.app/assets/remoteEntry.js'
       },
       shared: {
         react: { singleton: true, requiredVersion: '^18.3.1' },
